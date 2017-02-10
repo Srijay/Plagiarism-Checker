@@ -1,0 +1,3 @@
+int a; 
+int c;
+printf("hello buddy");

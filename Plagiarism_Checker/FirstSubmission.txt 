@@ -1,0 +1,18 @@
+
+Project Title => Copy Detector
+Roll Numbers => 153050007,153050013
+
+Problem Description => 
+ 
+Given a input file and directory, We have to sort all the files in directory according to closet matching index with given input file.
+
+Closest matching index => 
+ 
+The matching index we considered is the "Levenshtein distance" .The levenshtein distance between two strings specifies the minimum 
+number of operations (insert,update,delete) to convert one string to other.
+This indicates how one line of code is similar to other.
+
+Progress till now =>
+The basic framework of project is ready. FileReading, finding similarity index like functions are implemented. Now we will
+be adding new features on this basic framework and finding stricter strategies for copy detection.We may consider alternative similarity
+metrics for comparision if significant improvement is observed.Thanks.

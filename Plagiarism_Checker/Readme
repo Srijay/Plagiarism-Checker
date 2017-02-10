@@ -1,0 +1,92 @@
+ Project Title => Plagiarism Checker.
+
+Group members => 
+Srijay Deshpande - 153050007
+Jayesh Kshirsagar - 153050013
+
+Contribution BreakUp =>
+Srijay Deshpande - 50%
+Jayesh Kshirsagar - 50% 
+(Project done Together)
+
+To run the software:
+1)Open terminal and go to location where project directoy is stored.
+2)Execute bash checkPlagiarism.sh <directory name> <checking file> <outputfile>
+  eg. (./checkPlagiarism.sh testNormalDir testNormal.txt output.txt)
+ 
+Problem Statement:
+Input:Given a input file file_1 and directory, 
+Output: For each file file_i in the directory an index indicating similarity between file_1 and file_i.
+	    This index can be used as indicator as to whether file_1 was copied from file_i and vice-versa.
+	    The output file contains all files sorted according to copying index. Lower the index, more
+	    is the plagiarism.
+
+Strategy:
+ 
+Say we are comparing two files file1 and file2. Our basic idea is to find how much efforts are needed to convert file1 to file2.
+This idea is similar to concept of 'levenshtein distance' or edit distance. Lower moves or efforts required to convert one file to
+another, higher are chances that one of the files was copied from other. To compute these efforts, which we call as 	 	
+SimilarityIndex, for each line in file1 we find out line in file2 with minimum edit distance, and finally we add minimum edit 		
+distances for all lines in the file1 and this is final similarityIndex for these two files. 
+Lower the similarityIndex higher is the probability of plagiarism.
+
+Along with this core functionality, we have added following features to make our detection mechanism better. 
+To implement this features we add a preprocessing step before we actually start comparing files. Specifically, features are:
+1) Remove comments: In our strategy, comments can be reason of mistakes in edit distance computation. So we remove both single line and block comments.
+2) Splitting input according to delimiter: Lines of code may be put on a single line to avoid the detection. 
+                                           We defeate this by spiltting input according to line delimiter for programming language. e.g. ";" for c,c++,java.
+                                           In other words, we can say it's a line breaker.
+3) Remove case: To make levenshtein distance computation better, we convert input to lowercase.
+
+Due to our strategy described above following features are implicitly enabled:
+1) As we compare line of file1 with each line of file2, copying and rearranging of lines to avoid suspision is automatically detected.
+2) We remove unnessary spacing before comparison, this make detection better.
+
+So there are some implicit and explicit features are built inside.
+
+Implementation Details:
+Along with implmenting core and added functionalities efficiently, we also kept focus on designing a easy-to-understand, durable and efficient software architecture.
+We use a layered architecture. Main layers or modules in our software are as follows:
+
+1)User interface and call to Function: We run a comman line menu-drriven interface for now. 
+                                       This layer displays various options to user and calls corresponding functions from lower layer.
+                                       In the main file, we call actual function catchPlagiarism() that computes the plagiarism.
+  Files: main.py, plagiarismChecker.py
+
+2)Helper: This intermediate layer acts as interface to both it's upper layer and lower layer. 
+          This way we ensure that, changes made to any of these layers, don't propogate to other layer. 
+          This make adding/removing/testing of various features easy.
+  Files: plagiarismCheckerHelper.py
+
+3)Functionality & features: This layer contains the implmentation of the core functionality and features described above.
+  Files: edit_distance.py, line_break.py, remove_case.py, remove_comments.py
+
+
+
+-----------------------------------ADVANCED TECHNIQUE TO DETECT PLAGIARISM FOR C FILES----------------------------------------
+
+We thought to implement some advanced feature to check plagiarism in C files such that even if person change variables or
+any similar fraud, that will be surely detected. To achieve this purpose, we are first converting c code to assembly code
+by running command
+gcc -S <inputfile in C>
+
+After changing input file and all files in test directory from .c to .s, we are then applying our plagiarism checker algorithm
+to .s files and compute result. The results shown improvements if we check assembly code rather than C code.
+
+to run advanced checker for C files,
+
+run the script
+
+./checkPlagiarismAdvanceForC.sh <input C directory> <input C file> <output>
+
+
+-----------------------------------THANKS------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
